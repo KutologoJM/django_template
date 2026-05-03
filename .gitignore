@@ -1,0 +1,15 @@
+# Copier specific
+.temp/
+
+# IDEs
+.idea/             # PyCharm project settings
+.vscode/           # VsCode project settings
+*.swp              # Vim swap files
+*~                 # Fedora/GNOME backup files
+
+# Python environment
+.venv/
+env/
+virtualenv/
+bin/
+lib/
