@@ -73,12 +73,11 @@ MIDDLEWARE.insert(  # noqa: F405
 # Docs: https://neon.tech/docs/connect/connect-from-any-app
 # -----------------------------------------------------------------------------
 
-DATABASES = {  # noqa: F405
-    "default": dj_database_url.config(  # noqa: F405
-        default=os.getenv("DATABASE_URL"),  # noqa: F405
-        conn_max_age=600,
-        ssl_require=True,
-    )
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 # -----------------------------------------------------------------------------

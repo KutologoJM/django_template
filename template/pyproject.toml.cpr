@@ -21,7 +21,7 @@ dependencies = [
     "aiosmtpd", # for mail_debug
     "django-extensions",
     "django-health-check",
-    # "httpx",
+    "httpx",
     #"celery",
     "psutil",
     #"redis"

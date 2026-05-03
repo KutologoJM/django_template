@@ -5,42 +5,63 @@ _subdirectory: template
 
 # Questions
 buy_me_a_coffee_username:
-    type: str
-    prompt: Replace with a single Buy Me a Coffee username
-    default: ""
+  type: str
+  prompt: Replace with a single Buy Me a Coffee username
+  default: ""
 
 email_address:
-    type: str
-    prompt: Replace with your email address
-    default: "your@email.com"
+  type: str
+  prompt: Replace with your email address
+  default: "your@email.com"
+
+project_name:
+  type: str
+  prompt: Replace with your project name
+  default: "my_project"
 
 # Messages to user
 
 _message_before_copy: |
-    Thanks for generating a project using our template.
-
-    You'll be asked a series of questions whose answers will be used to
-    generate a tailored project for you.
+  Thanks for generating a project using our template.
+  
+  You'll be asked a series of questions whose answers will be used to
+  generate a tailored project for you.
 
 _message_after_copy: |
-    Your project "{{ project_name }}" has been created successfully!
-
-    Next steps:
-
-    1. Change directory to the project root:
-
-       $ cd {{ _copier_conf.dst_path }}
-
-    2. Read the "README.md" and start coding.
+  Your project "{{ project_name }}" has been created successfully!
+  
+  Next steps:
+  
+  1. Change directory to the project root:
+  
+     $ cd {{ _copier_conf.dst_path }}
+  
+  2. Read the "README.md" and start coding.
 
 
 _message_before_update: |
-    Thanks for updating your project using our template.
-
-    You'll be asked a series of questions whose answers are pre-populated
-    with previously entered values. Feel free to change them as needed.
+  Thanks for updating your project using our template.
+  
+  You'll be asked a series of questions whose answers are pre-populated
+  with previously entered values. Feel free to change them as needed.
 
 _message_after_update: |
-    Your project "{{ project_name }}" has been updated successfully!
-    In case there are any conflicts, please resolve them. Then,
-    you're done.
+  Your project "{{ project_name }}" has been updated successfully!
+  In case there are any conflicts, please resolve them. Then,
+  you're done.
+
+
+_tasks:
+  # 1 Create a virtual environment
+  - "git init"
+  - "uv sync --extra dev"
+  # 2. Set up the env file
+  - "cp ./{{project_name}}/envs/.env.example.dev .env"
+
+
+  # 3. Run migrations using the correct settings
+  - export DJANGO_SETTINGS_MODULE=my_project.settings.dev && ./.venv/bin/python manage.py makemigrations
+  - export DJANGO_SETTINGS_MODULE=my_project.settings.dev && ./.venv/bin/python manage.py migrate
+
+  # 4. Final message instead of blocking server
+  - export DJANGO_SETTINGS_MODULE=my_project.settings.dev && ./.venv/bin/python manage.py check
