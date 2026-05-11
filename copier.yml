@@ -27,7 +27,9 @@ _message_after_copy: |
   
      $ cd {{ _copier_conf.dst_path }}
   
-  2. Read the "README.md" and start coding.
+  2. Export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev to environmental variables
+  
+  3. 
 
 
 _message_before_update: |
