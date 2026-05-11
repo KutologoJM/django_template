@@ -3,17 +3,8 @@
 _templates_suffix: .cpr
 _subdirectory: template
 
+
 # Questions
-buy_me_a_coffee_username:
-  type: str
-  prompt: Replace with a single Buy Me a Coffee username
-  default: ""
-
-email_address:
-  type: str
-  prompt: Replace with your email address
-  default: "your@email.com"
-
 project_name:
   type: str
   prompt: Replace with your project name
@@ -53,15 +44,15 @@ _message_after_update: |
 
 _tasks:
   # 1 Create a virtual environment
-  - "git init"
-  - "uv sync --extra dev"
+  - "cd {{ project_name }} && git init"
+  - "cd {{ project_name }} && uv sync --extra dev"
   # 2. Set up the env file
-  - "cp ./{{project_name}}/envs/.env.example.dev .env"
+  - "cd {{ project_name }} && cp ./{{project_name}}/envs/.env.example.dev .env"
 
 
   # 3. Run migrations using the correct settings
-  - export DJANGO_SETTINGS_MODULE=my_project.settings.dev && ./.venv/bin/python manage.py makemigrations
-  - export DJANGO_SETTINGS_MODULE=my_project.settings.dev && ./.venv/bin/python manage.py migrate
+  - export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev && cd {{ project_name }} && ./.venv/bin/python manage.py makemigrations
+  - export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev && cd {{ project_name }} && ./.venv/bin/python manage.py migrate
 
   # 4. Final message instead of blocking server
-  - export DJANGO_SETTINGS_MODULE=my_project.settings.dev && ./.venv/bin/python manage.py check
+  - export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev && cd {{ project_name }} && ./.venv/bin/python manage.py check
