@@ -1,0 +1,14 @@
+_tasks:
+  # 1 Create a virtual environment
+  - "cd {{ project_name }} && git init"
+  - "cd {{ project_name }} && uv sync --extra dev"
+  # 2. Set up the env file
+  - "cd {{ project_name }} && cp ./{{project_name}}/envs/.env.example.dev .env"
+
+
+  # 3. Run migrations using the correct settings
+  - export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev && cd {{ project_name }} && ./.venv/bin/python manage.py makemigrations
+  - export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev && cd {{ project_name }} && ./.venv/bin/python manage.py migrate
+
+  # 4. Final message instead of blocking server
+  - export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev && cd {{ project_name }} && ./.venv/bin/python manage.py check
