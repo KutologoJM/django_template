@@ -89,6 +89,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "corsheaders",
     "django_filters",
+    "drf_spectacular",
 
     {% if use_celery %}
     # "django_celery_beat",        # uv add django-celery-beat (periodic tasks)
@@ -319,6 +320,18 @@ REST_FRAMEWORK = {
         "rest_framework.filters.SearchFilter",
         "rest_framework.filters.OrderingFilter",
     ],
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# -----------------------------------------------------------------------------
+# DRF Spectacular
+# Docs: https://drf-spectacular.readthedocs.io/en/latest/index.html
+# -----------------------------------------------------------------------------
+SPECTACULAR_SETTINGS = {
+    'TITLE': '{% project_name %} API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '0.0.1',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
 
 # -----------------------------------------------------------------------------

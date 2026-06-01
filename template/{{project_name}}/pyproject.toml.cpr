@@ -22,18 +22,26 @@ dependencies = [
     "django-extensions",
     "django-health-check",
     "httpx",
-    #"celery",
+    {% if use_celery %}
+    "celery",
+    celery-types>=0.24.0",
+    "django-celery-beat>=2.0",
+    django-celery-results>=2.0",
+    {% endif %}
     "psutil",
-    #"redis"
+    {% if use_redis %}
+    "redis"
+    {% endif %}
     "djangorestframework",
     "django-filter",
     "django-cors-headers",
-    # celery-types>=0.24.0",
-    # "django-celery-beat>=2.0",
-    # "django-celery-results>=2.0",
     # "django-storages[s3]>=1.14",
     # "boto3>=1.0",
+    {% if use_sentry_in_prod %}
     # "sentry-sdk>=2.0",
+    {% endif %}
+    "dj-config-url>=0.1.1",
+    "drf-spectacular>=0.29.0",
 ]
 
 [project.optional-dependencies]
