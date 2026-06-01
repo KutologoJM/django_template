@@ -44,20 +44,15 @@ dependencies = [
     "drf-spectacular>=0.29.0",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    # Dev server utilities
     "django-debug-toolbar",
     "django-browser-reload",
     "django-watchfiles",
-
-    # Testing
     "pytest",
     "pytest-django",
     "pytest-cov",
     "factory-boy",
-
-    # Code quality
     "black",
     "ruff",
 ]
