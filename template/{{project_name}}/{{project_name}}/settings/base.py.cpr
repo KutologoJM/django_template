@@ -328,7 +328,7 @@ REST_FRAMEWORK = {
 # Docs: https://drf-spectacular.readthedocs.io/en/latest/index.html
 # -----------------------------------------------------------------------------
 SPECTACULAR_SETTINGS = {
-    'TITLE': '{% project_name %} API',
+    'TITLE': '{{ project_name }} API',
     'DESCRIPTION': 'Your project description',
     'VERSION': '0.0.1',
     'SERVE_INCLUDE_SCHEMA': False,
