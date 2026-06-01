@@ -10,51 +10,38 @@ requires-python = ">=3.14"
 # Docs: https://docs.astral.sh/uv/
 # -----------------------------------------------------------------------------
 
+[project]
 dependencies = [
-    # Core
-    "django>=6.0",
-    "python-dotenv",
-    "dj-database-url",
-    "psycopg2-binary",
-    "gunicorn",
-    "whitenoise",
-    "aiosmtpd", # for mail_debug
-    "django-extensions",
-    "django-health-check",
-    "httpx",
-    {% if use_celery %}
-    "celery",
-    celery-types>=0.24.0",
-    "django-celery-beat>=2.0",
-    django-celery-results>=2.0",
-    {% endif %}
-    "psutil",
-    {% if use_redis %}
-    "redis"
-    {% endif %}
-    "djangorestframework",
-    "django-filter",
-    "django-cors-headers",
+    "aiosmtpd~=1.4",# for mail_debug
+    "dj-config-url>=0.1,<1.0",
+    "dj-database-url~=3.1",
+    "django~=6.0",
+    "django-cors-headers~=4.9",
+    "django-extensions~=4.1",
+    "django-filter~=25.2",
+    "django-health-check~=4.4",
     # "django-storages[s3]>=1.14",
-    # "boto3>=1.0",
-    {% if use_sentry_in_prod %}
-    # "sentry-sdk>=2.0",
-    {% endif %}
-    "dj-config-url>=0.1.1",
-    "drf-spectacular>=0.29.0",
+    "djangorestframework~=3.17",
+    "drf-spectacular>=0.29,<1.0",
+    "gunicorn~=26.0",
+    "httpx>=0.28,<1.0",
+    "psutil~=7.2",
+    "psycopg[binary]~=3.2",
+    "python-dotenv~=1.2",
+    "whitenoise~=6.12",
 ]
 
 [dependency-groups]
 dev = [
-    "django-debug-toolbar",
-    "django-browser-reload",
-    "django-watchfiles",
-    "pytest",
-    "pytest-django",
-    "pytest-cov",
-    "factory-boy",
-    "black",
-    "ruff",
+    "black~=26.5",
+    "django-browser-reload~=1.21",
+    "django-debug-toolbar~=6.3",
+    "django-watchfiles~=1.4",
+    "factory-boy~=3.3",
+    "pytest~=9.0",
+    "pytest-cov~=7.1",
+    "pytest-django~=4.12",
+    "ruff>=0.15,<1.0",
 ]
 
 # -----------------------------------------------------------------------------
