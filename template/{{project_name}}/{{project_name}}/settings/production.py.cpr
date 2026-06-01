@@ -43,8 +43,8 @@ SECURE_HSTS_SECONDS = int(os.getenv("SECURE_HSTS_SECONDS", 300))  # noqa: F405
 # Docs: https://docs.djangoproject.com/en/stable/topics/cache/
 # -----------------------------------------------------------------------------
 
+{% if use_redis %}
 _REDIS_URL = os.getenv("REDIS_URL")  # noqa: F405
-
 if _REDIS_URL:
     CACHES = {
         "default": {
@@ -52,14 +52,15 @@ if _REDIS_URL:
             "LOCATION": _REDIS_URL,
         }
     }
-else:
-    CACHES = {
+{% else %}
+CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.db.DatabaseCache",
             "LOCATION": "cache_table",
             # Run: python manage.py createcachetable
         }
     }
+{% endif %}
 
 # -----------------------------------------------------------------------------
 # EMAIL
@@ -77,26 +78,26 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True") == "True"  # noqa: F405
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")  # noqa: F405
 SERVER_EMAIL = DEFAULT_FROM_EMAIL  # Used by mail_admins logging handler.
 
+{% if use_sentry_in_prod %}
 # -----------------------------------------------------------------------------
-# SENTRY (optional)
-# Uncomment to enable error tracking and performance monitoring in production.
-# Requires: uv add sentry-sdk
+# SENTRY
 # Docs: https://docs.sentry.io/platforms/python/integrations/django/
 # -----------------------------------------------------------------------------
+ import sentry_sdk
+ from sentry_sdk.integrations.django import DjangoIntegration
 
-# import sentry_sdk
-# from sentry_sdk.integrations.django import DjangoIntegration
-# from sentry_sdk.integrations.celery import CeleryIntegration  # if using Celery
-# from sentry_sdk.integrations.redis import RedisIntegration    # if using Redis
-#
-# sentry_sdk.init(
-#     dsn=os.getenv("SENTRY_DSN"),
-#     integrations=[
-#         DjangoIntegration(),
-#         # CeleryIntegration(),
-#         # RedisIntegration(),
-#     ],
-#     # Percentage of transactions to send for performance monitoring (0.0 to 1.0).
-#     traces_sample_rate=float(os.getenv("SENTRY_TRACES_SAMPLE_RATE", "0.1")),
-#     send_default_pii=False,  # Never send personally identifiable information.
-# )
+ {% if use_celery %} from sentry_sdk.integrations.celery import CeleryIntegration {% endif %}
+ {% if use_redis %} from sentry_sdk.integrations.redis import RedisIntegration {% endif %}
+
+ sentry_sdk.init(
+     dsn=os.getenv("SENTRY_DSN"),
+     integrations=[
+         DjangoIntegration(),
+         {% if use_celery %} CeleryIntegration(),  {% endif %}
+         {% if use_redis %} RedisIntegration(),  {% endif %}
+     ],
+     # Percentage of transactions to send for performance monitoring (0.0 to 1.0).
+     traces_sample_rate=float(os.getenv("SENTRY_TRACES_SAMPLE_RATE", "0.1")),
+     send_default_pii=False,  # Don't send personally identifiable information by default.
+ )
+ {% endif %}

@@ -17,10 +17,20 @@ database:
     Neon Postgres: neon-postgres
     Local Sqlite3: local-sqlite3
 
-use_sentry:
+use_sentry_in_prod:
   type: bool
   default: false
   help: Do you want to use sentry's sdk?
+
+use_celery:
+  type: bool
+  default: false
+  help: Do you want to use celery?
+
+use_redis:
+  type: bool
+  default: false
+  help: Do you want to use redis?
 
 # Messages to user
 

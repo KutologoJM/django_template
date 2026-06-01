@@ -86,13 +86,14 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     "health_check",
     "rest_framework",
-    "rest_framework.authtoken",  # only if using token auth
-    "corsheaders",  # uv add django-cors-headers
-    "django_filters",  # uv add django-filter
+    "rest_framework.authtoken",
+    "corsheaders",
+    "django_filters",
 
-    # --- Uncomment if using Celery + Redis ---
+    {% if use_celery %}
     # "django_celery_beat",        # uv add django-celery-beat (periodic tasks)
     # "django_celery_results",     # uv add django-celery-results (task result storage)
+    {% endif %}
 ]
 
 """
@@ -306,7 +307,7 @@ HEALTH_CHECK_TOKEN = os.getenv("HEALTH_CHECK_TOKEN")
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        # "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -326,25 +327,25 @@ REST_FRAMEWORK = {
 # -----------------------------------------------------------------------------
 
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
-CORS_ALLOW_CREDENTIALS = False  # Set True only if sending cookies cross-origin.
+CORS_ALLOW_CREDENTIALS = True  # Set True only if sending cookies cross-origin.
 
+{% if use_celery and use_redis %}
 # -----------------------------------------------------------------------------
-# CELERY + REDIS (optional)
-# Uncomment this block and add django-celery-beat / django-celery-results to
-# THIRD_PARTY_APPS above if you need those features.
+# CELERY + REDIS
 # Requires: uv add celery redis django-celery-beat django-celery-results
 # Docs: https://docs.celeryq.dev/en/stable/userguide/configuration.html
 # -----------------------------------------------------------------------------
 
-# REDIS_URL = os.getenv("REDIS_URL")
-#
-# CELERY_BROKER_URL = REDIS_URL
-# CELERY_RESULT_BACKEND = REDIS_URL
-# CELERY_ACCEPT_CONTENT = ["json"]
-# CELERY_TASK_SERIALIZER = "json"
-# CELERY_RESULT_SERIALIZER = "json"
-# CELERY_TIMEZONE = TIME_ZONE
-# CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+REDIS_URL = os.getenv("REDIS_URL")
+
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+{% endif %}
 
 # -----------------------------------------------------------------------------
 # CLOUDFLARE R2 STORAGE (optional)
