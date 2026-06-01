@@ -7,8 +7,20 @@ _subdirectory: template
 # Questions
 project_name:
   type: str
-  prompt: Replace with your project name
+  help: Replace with your project name
   default: "my_project"
+
+database:
+  type: str
+  help: Which database preset would you like to use?
+  choices:
+    Neon Postgres: neon-postgres
+    Local Sqlite3: local-sqlite3
+
+use_sentry:
+  type: bool
+  default: false
+  help: Do you want to use sentry's sdk?
 
 # Messages to user
 
