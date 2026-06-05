@@ -19,6 +19,8 @@ Docs: https://docs.djangoproject.com/en/stable/topics/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
+from rest_framework.settings import api_settings
 
 import dj_database_url
 from dotenv import load_dotenv
@@ -86,7 +88,7 @@ THIRD_PARTY_APPS = [
     "django_extensions",
     "health_check",
     "rest_framework",
-    "rest_framework.authtoken",
+    "knox",
     "corsheaders",
     "django_filters",
     "drf_spectacular",
@@ -308,7 +310,7 @@ HEALTH_CHECK_TOKEN = os.getenv("HEALTH_CHECK_TOKEN")
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",
+        "knox.auth.TokenAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
@@ -321,6 +323,26 @@ REST_FRAMEWORK = {
         "rest_framework.filters.OrderingFilter",
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# -----------------------------------------------------------------------------
+# DJANGO REST KNOX
+# Docs: https://jazzband.github.io/django-rest-knox/settings/
+# -----------------------------------------------------------------------------
+
+KNOX_TOKEN_MODEL = 'knox.AuthToken'
+REST_KNOX = {
+  'SECURE_HASH_ALGORITHM': 'hashlib.sha512',
+  'AUTH_TOKEN_CHARACTER_LENGTH': 64,
+  'TOKEN_TTL': timedelta(hours=10),
+  'USER_SERIALIZER': 'knox.serializers.UserSerializer',
+  'TOKEN_LIMIT_PER_USER': None,
+  'AUTO_REFRESH': False,
+  'AUTO_REFRESH_MAX_TTL': None,
+  'MIN_REFRESH_INTERVAL': 60,
+  'AUTH_HEADER_PREFIX': 'Token',
+  'EXPIRY_DATETIME_FORMAT': api_settings.DATETIME_FORMAT,
+  'TOKEN_MODEL': 'knox.AuthToken',
 }
 
 # -----------------------------------------------------------------------------

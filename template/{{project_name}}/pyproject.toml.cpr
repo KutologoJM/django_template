@@ -21,6 +21,7 @@ dependencies = [
     "django-filter~=25.2",
     "django-health-check~=4.4",
     # "django-storages[s3]>=1.14",
+    "django-rest-knox>=5.0.4",
     "djangorestframework~=3.17",
     "drf-spectacular>=0.29,<1.0",
     "gunicorn~=26.0",
