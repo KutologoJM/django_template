@@ -37,6 +37,7 @@ dev = [
     "django-browser-reload~=1.21",
     "django-debug-toolbar~=6.3",
     "django-watchfiles~=1.4",
+    "djangorestframework-stubs>=3.17.0",
     "factory-boy~=3.3",
     "pytest~=9.0",
     "pytest-cov~=7.1",

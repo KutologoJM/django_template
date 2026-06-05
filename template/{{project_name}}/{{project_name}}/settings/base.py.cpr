@@ -20,7 +20,7 @@ Docs: https://docs.djangoproject.com/en/stable/topics/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
-from rest_framework.settings import api_settings
+# from rest_framework.settings import api_settings NOTE: Avoid calling rest framework directly
 
 import dj_database_url
 from dotenv import load_dotenv
@@ -341,7 +341,7 @@ REST_KNOX = {
   'AUTO_REFRESH_MAX_TTL': None,
   'MIN_REFRESH_INTERVAL': 60,
   'AUTH_HEADER_PREFIX': 'Token',
-  'EXPIRY_DATETIME_FORMAT': api_settings.DATETIME_FORMAT,
+  'EXPIRY_DATETIME_FORMAT': 'iso-8601',
   'TOKEN_MODEL': 'knox.AuthToken',
 }
 
