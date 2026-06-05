@@ -32,6 +32,7 @@ class LogoutView(KnoxLogoutView):
     schema = SpectacularAutoSchema()
 
     @extend_schema(
+        request=None,
         responses={204: None},
         description="Invalidate and delete the token used for the current session."
     )
@@ -43,6 +44,7 @@ class LogoutAllView(KnoxLogoutAllView):
     schema = SpectacularAutoSchema()
 
     @extend_schema(
+        request=None,
         responses={204: None},
         description="Invalidate and delete every active token associated with this account."
     )
