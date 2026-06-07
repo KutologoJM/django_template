@@ -28,6 +28,9 @@ dependencies = [
     "psutil~=7.2",
     "psycopg[binary]~=3.2",
     "python-dotenv~=1.2",
+    {% if use_sentry_in_prod %}
+    "sentry-sdk>=2.61.1",
+    {% endif %}
     "whitenoise~=6.12",
 ]
 
