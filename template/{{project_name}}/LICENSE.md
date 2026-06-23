@@ -1,4 +1,4 @@
-
+Copyright (c) 2026 Kutologo J. Mashego
 Mozilla Public License
 Version 2.0
 1. Definitions
