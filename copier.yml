@@ -2,7 +2,7 @@
 
 _templates_suffix: .cpr
 _subdirectory: template
-
+_answers_file: {{ project_name }}/.copier-answers.yml
 
 # Questions
 project_name:
