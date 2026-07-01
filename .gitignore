@@ -2,6 +2,7 @@
 .temp/
 
 # IDEs
+.idea
 .idea/             # PyCharm project settings
 .vscode/           # VsCode project settings
 *.swp              # Vim swap files
