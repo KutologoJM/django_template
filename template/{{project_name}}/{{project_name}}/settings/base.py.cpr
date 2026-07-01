@@ -352,7 +352,7 @@ REST_KNOX = {
 SPECTACULAR_SETTINGS = {
     'TITLE': '{{ project_name }} API',
     'DESCRIPTION': 'Your project description',
-    'VERSION': '0.0.1',
+    'VERSION': '0.1.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
 

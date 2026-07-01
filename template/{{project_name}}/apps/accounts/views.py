@@ -1,3 +1,4 @@
+from django.contrib.auth import login
 from drf_spectacular.openapi import AutoSchema as SpectacularAutoSchema
 from drf_spectacular.utils import extend_schema
 from knox.views import (
@@ -5,18 +6,22 @@ from knox.views import (
     LogoutView as KnoxLogoutView,
     LogoutAllView as KnoxLogoutAllView,
 )
-from rest_framework import serializers
+from rest_framework import serializers, permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from apps.accounts.serializers import UserSerializer
 
 
-# Defines what Knox actually returns on a successful login
+# Defines what Knox returns on a successful login
 class KnoxLoginResponseSerializer(serializers.Serializer):
     token = serializers.CharField(help_text="The secure token string to place in your Authorization header.")
     expiry = serializers.DateTimeField(help_text="The timestamp when this token expires.")
+    user = UserSerializer(read_only=True)
 
 
 class LoginView(KnoxLoginView):
     schema = SpectacularAutoSchema()
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = []
 
     @extend_schema(
         request=AuthTokenSerializer,
@@ -25,7 +30,11 @@ class LoginView(KnoxLoginView):
         description="Submit credentials to receive a fresh Knox authentication token."
     )
     def post(self, request, format=None):
-        return super().post(request, format)
+        serializer = AuthTokenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        login(request, user)
+        return super(LoginView, self).post(request, format=None)
 
 
 class LogoutView(KnoxLogoutView):
@@ -50,3 +59,10 @@ class LogoutAllView(KnoxLogoutAllView):
     )
     def post(self, request, format=None):
         return super().post(request, format)
+
+
+"""
+Note to self:
+Overriding post exposes the method in the local class scope,
+ allowing the @extend_schema decorator to properly register the endpoint's documentation.
+"""
