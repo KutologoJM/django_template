@@ -172,6 +172,7 @@ GitHub.sublime-settings
 # -----------------------------------------------------------------------------
 # Custom
 # -----------------------------------------------------------------------------
+apps/*/.git/
 
 # Drop anything named do_not_commit here for quick local exclusion.
 do_not_commit
