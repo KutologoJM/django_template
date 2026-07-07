@@ -1,5 +1,5 @@
 # Project config
-
+# https://copier.readthedocs.io/en/stable/creating/#_copier_conf
 _templates_suffix: .cpr
 _subdirectory: template
 
@@ -35,27 +35,26 @@ use_redis:
 
 _message_before_copy: |
   Thanks for generating a project using our template.
-  
+
   You'll be asked a series of questions whose answers will be used to
   generate a tailored project for you.
 
 _message_after_copy: |
   Your project "{{ project_name }}" has been created successfully!
-  
-  Next steps:
-  
-  1. Change directory to the project root:
-  
-     $ cd {{ _copier_conf.dst_path }}
-  
-  2. Export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev to environmental variables
-  
-  3. 
 
+  Next steps:
+
+  1. Change directory to the project root:
+
+     $ cd {{ _copier_conf.dst_path }}
+
+  2. Export DJANGO_SETTINGS_MODULE={{project_name}}.settings.dev to environmental variables
+
+  3.
 
 _message_before_update: |
   Thanks for updating your project using our template.
-  
+
   You'll be asked a series of questions whose answers are pre-populated
   with previously entered values. Feel free to change them as needed.
 
