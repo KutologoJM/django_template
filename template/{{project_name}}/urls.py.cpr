@@ -43,7 +43,7 @@ urlpatterns = [
                 # "health_check.contrib.redis.Redis",
 
                 # "health_check.contrib.atlassian.Cloudflare",
-                "health_check.contrib.atlassian.Render",
+                # "health_check.contrib.atlassian.Render",
             ]
         ),
     ),

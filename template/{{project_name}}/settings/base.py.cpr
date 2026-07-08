@@ -322,7 +322,7 @@ REST_FRAMEWORK = {
         "rest_framework.filters.SearchFilter",
         "rest_framework.filters.OrderingFilter",
     ],
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_SCHEMA_CLASS': 'core.schema.MultiSerializerAutoSchema',
 }
 
 # -----------------------------------------------------------------------------
@@ -352,7 +352,7 @@ REST_KNOX = {
 SPECTACULAR_SETTINGS = {
     'TITLE': '{{ project_name }} API',
     'DESCRIPTION': 'Your project description',
-    'VERSION': '0.1.0',
+    'VERSION': '{{project_version}}',
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
